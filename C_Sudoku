@@ -2,6 +2,7 @@
 #include <stdbool.h>
 /*I'm working to recreate a standard 9x9 checker in C before I get into scaling it.*/
 int main() {
+/*correctly completed 9x9*/
 int board[9][9] = {
     {1, 3, 2, 5, 7, 9, 4, 6, 8},
     {4, 9, 8, 2, 6, 1, 3, 7, 5},
@@ -13,6 +14,19 @@ int board[9][9] = {
     {3, 6, 5, 8, 1, 7, 9, 2, 4},
     {8, 7, 9, 6, 4, 2, 1, 5, 3}
 };
+
+/*Incorrect 9x9*/
+// int board[9][9] = {
+//     {1, 3, 2, 5, 7, 9, 4, 6, 8},
+//     {4, 9, 8, 2, 6, 1, 3, 7, 5},
+//     {7, 5, 6, 3, 8, 4, 2, 1, 9},
+//     {6, 4, 3, 1, 5, 8, 7, 9, 2},
+//     {5, 2, 1, 7, 9, 3, 8, 4, 6},
+//     {9, 8, 7, 4, 2, 6, 5, 3, 1},
+//     {2, 1, 4, 9, 3, 5, 6, 8, 7},
+//     {3, 6, 5, 8, 1, 7, 9, 2, 4},
+//     {8, 7, 9, 6, 4, 2, 1, 5, 9}
+// };
 
 bool row_check = true;
 bool column_check = true;
@@ -34,7 +48,7 @@ for(int j = start; j < N; j++)
                 if(k > i && board[j][i] != board[j][k])
                     continue;
                 else {
-                    if(k == i){
+                    if(k <= i){
                         continue;
                     }
                     else {
@@ -42,11 +56,11 @@ for(int j = start; j < N; j++)
                     }
                 }
                 /*checks columns 2nd*/
-                if(k != j && board[j][i] != board[k][i]) {
+                if(k > j && board[j][i] != board[k][i]) {
                     continue;
                 }
                 else {
-                    if(k == j){
+                    if(k <= j){
                         continue;
                     }
                     else {
@@ -56,21 +70,36 @@ for(int j = start; j < N; j++)
                 
             }
             /*checks the 3x3 blocks*/
-            for x in range(sqrtN): #0,1,2 if N=9 for rows
-                    for y in range(sqrtN): #0,1,2 if N=9 for columns
-                        if x == i%(sqrtN) and y == j%(sqrtN): #if x=remainder(i) and y=remainder(j), matches to same square as [j][i]
-                            continue
-                        elif board[j][i] != board[j-j%(sqrtN)+y][i-i%(sqrtN)+x]: #w/ matches eliminated,val-val%sqrtN indexes to the current block
-                            continue
-                        else:
-                            block_check = False
+            for(int x = start; x < sqrtN; x++) {
+                for(int y = start; y < sqrtN; y++) {
+                    if(x <= i%(sqrtN) && y <= j%(sqrtN)) { /*if x=remainder(i) and y=remainder(j), matches to same square as [j][i]. if <, then already tested*/
+                        continue;
+                    }
+                    else {
+                        if(board[j][i] != board[j-j%(sqrtN)+y][i-i%(sqrtN)+x]) { /* w/ matches eliminated,val-val%sqrtN indexes to the current block*/
+                            continue;
+                        }
+                        else {
+                            block_check = false;
+                        }
+                    }
+                }
+            }
         }
         else {
+            printf("Board contains non-valid values\n");
             row_check = false;
             column_check = false;
+            block_check = false;
+            return;
         }
     }
 }
 
-        
+if(row_check == true && column_check == true && block_check == true) {
+    printf("Sudoku board completed correctly!\n");
+}
+else {
+    printf("Sudoku board is incorrectly completed.\n");
+}
 }
