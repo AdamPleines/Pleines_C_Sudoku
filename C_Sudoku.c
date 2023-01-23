@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+
+// int pow(int a, int b);
+int isdigit(int c);
 /*I'm working to recreate a standard 9x9 checker in C before I get into scaling it.*/
 int main() {
 /*correctly completed 9x9*/
@@ -41,7 +46,7 @@ for(int j = start; j < N; j++)
 {
     for(int i = start; i < N; i++)
     {
-        if(1 <= board[j][i] <= N && isdigit(board[j][i])) {
+        if(1 <= board[j][i] <= N && isdigit(board[j][i])==0) {
             /*checked for #s 1-9 with loading each spot exactly once, now a third loop runs #s 1-9 for comparison between each location and the rest of the row/column*/
             for(int k = start; k < N; k++) {
                 /*checks rows 1st*/
@@ -91,7 +96,7 @@ for(int j = start; j < N; j++)
             row_check = false;
             column_check = false;
             block_check = false;
-            return;
+            exit(0);
         }
     }
 }
